@@ -1,0 +1,30 @@
+#Sync class name
+
+import os
+import xml.etree.ElementTree as ET
+
+ori_xml_annotation_path = "C:/Users/Syarafuddin/Downloads/XML Amin/Annotations"
+
+# Iterate over each file in the folder
+for filename in os.listdir(ori_xml_annotation_path):
+    if filename.endswith('.xml'):  # Check if the file is an XML file
+        file_path = os.path.join(ori_xml_annotation_path, filename)
+
+        # Parse the XML file
+        tree = ET.parse(file_path)
+
+        # Get the root element
+        root = tree.getroot()
+
+        # Find the object element and update its name
+        for obj in root.findall('object'):
+            name_element = obj.find('name')
+
+            # Update the name to the desired value
+            if name_element.text == 'Undamaged Commercial Building': name_element.text = 'undamagedcommercialbuilding'
+            elif name_element.text == 'Undamaged Residential Building': name_element.text = 'undamagedresidentialbuilding'
+            elif name_element.text == 'Damaged Commercial Building': name_element.text = 'damagedcommercialbuilding'
+            elif name_element.text == 'Damaged Residential Building': name_element.text = 'damagedresidentialbuilding'
+
+        # Write the updated XML back to the file
+        tree.write(file_path, encoding='utf-8', xml_declaration=True)

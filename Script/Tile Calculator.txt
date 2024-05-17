@@ -1,0 +1,24 @@
+# tile calculator
+import math
+
+origin_x = 163026.52
+origin_y = 2046106.26
+
+coord_of_interest = str(input()).split(',')
+coord_of_interest = [float(coord) for coord in coord_of_interest]
+
+num_tile_x = (coord_of_interest[0] - origin_x) / 150
+num_tile_y = (origin_y - coord_of_interest[1]) / 130
+
+possible_tile_x = [math.floor(num_tile_x), math.ceil(num_tile_x)]
+possible_tile_y = [math.floor(num_tile_y), math.ceil(num_tile_y)]
+
+print('Possible tile filename\n')
+for x in possible_tile_x:
+    
+    print('Tile ' + str(x) + ':')
+    
+    for y in possible_tile_y:
+        print('tile_' + str(x) + '_' + str(y))
+
+    print()

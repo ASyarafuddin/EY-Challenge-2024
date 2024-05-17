@@ -1,0 +1,69 @@
+# count annotation for each class
+
+import os
+
+folder_path = "C:/Users/Syarafuddin/Downloads/Export Din - 28 Feb 2024/labels"
+
+count_0 = 0
+count_1 = 0
+count_2 = 0
+count_3 = 0
+
+count_img_0 = 0
+count_img_1 = 0
+count_img_2 = 0
+count_img_3 = 0
+
+for filename in os.listdir(folder_path):
+    if filename.endswith('.txt'):
+        file_path = os.path.join(folder_path, filename)
+        
+        flag_counted_0 = False
+        flag_counted_1 = False
+        flag_counted_2 = False
+        flag_counted_3 = False
+        
+        with open(file_path, 'r') as file:
+            for line in file:
+                if line[0] == '0':
+                    count_0 += 1
+
+                    if flag_counted_0 is False:
+                        flag_counted_0 = True
+                        count_img_0 += 1
+                    
+                elif line[0] == '1':
+                    count_1 += 1
+
+                    if flag_counted_1 is False:
+                        flag_counted_1 = True
+                        count_img_1 += 1
+                    
+                elif line[0] == '2':
+                    count_2 += 1
+
+                    if flag_counted_2 is False:
+                        flag_counted_2 = True
+                        count_img_2 += 1
+                    
+                elif line[0] == '3':
+                    count_3 += 1
+
+                    if flag_counted_3 is False:
+                        flag_counted_3 = True
+                        count_img_3 += 1
+
+
+print('Number of image annotated for each class')
+print('-------------------------------------------')
+print('damagedcommercialbuilding: ' + str(count_img_0))
+print('damagedresidentialbuilding: ' + str(count_img_1))
+print('undamagedcommercialbuilding: ' + str(count_img_2))
+print('undamagedresidentialbuilding: ' + str(count_img_3))
+
+print('\nNumber of objects annotated for each class')
+print('-------------------------------------------')
+print('damagedcommercialbuilding: ' + str(count_0))
+print('damagedresidentialbuilding: ' + str(count_1))
+print('undamagedcommercialbuilding: ' + str(count_2))
+print('undamagedresidentialbuilding: ' + str(count_3))

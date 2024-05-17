@@ -1,0 +1,60 @@
+import json
+
+json_din_path = 'test_json/json_file_1.json'
+json_aliff_path = 'test_json/json_file_2.json'
+json_amin_path = 'test_json/json_file_3.json'
+
+result_path = 'test_json/result.json'
+
+# Load JSON files
+with open(json_din_path, 'r') as file:
+    json_din = json.load(file)
+
+with open(json_aliff_path, 'r') as file:
+    json_aliff = json.load(file)
+
+with open(json_amin_path, 'r') as file:
+    json_amin = json.load(file)
+
+
+def combine_json(json_data_1, json_data_2):
+
+    # Update image IDs in images of the second file
+    prev_image_count = len(json_data_1['images'])
+
+    for image in json_data_2['images']:
+        image['id'] += prev_image_count
+
+    # Merge images
+    combined_images = json_data_1['images'] + json_data_2['images']
+
+    # Update image IDs in annotations of the second file
+    prev_annotate_count = len(json_data_1['annotations'])
+
+    for annotation in json_data_2['annotations']:
+        annotation['id'] += prev_annotate_count
+        annotation['image_id'] += prev_image_count
+
+    # Merge annotations
+    combined_annotations = json_data_1['annotations'] + json_data_2['annotations']
+
+    # Combine categories and info
+    combined_categories = json_data_1['categories']
+    combined_info = json_data_1['info']
+
+    # Combine into a single dictionary
+    combined_json = {
+        'images': combined_images,
+        'categories': combined_categories,
+        'annotations': combined_annotations,
+        'info': combined_info
+    }
+
+    return combined_json
+
+temp_json = combine_json(json_din, json_aliff)
+combined_json = combine_json(temp_json, json_amin)
+
+# Save the combined JSON
+with open(result_path, 'w') as file:
+    json.dump(combined_json, file, indent=2)
